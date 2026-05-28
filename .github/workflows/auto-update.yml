@@ -1,0 +1,35 @@
+name: Auto-Update Trends Data
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # Runs every 12 hours
+  workflow_dispatch: # Allows manual trigger click
+
+permissions:
+  contents: write # Crucial: Allows the bot to push data.json back to your repo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Requests
+      run: pip install requests
+
+    - name: Run Trend Fetcher Script
+      run: python fetch_trends.py
+
+    - name: Commit and Push Updated data.json
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add data.json
+        git commit -m "Auto-update trends data" || echo "No changes to commit"
+        git push
