@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import re
 import os
 import random
+import sys
 
 # Core Configurations
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -184,7 +185,7 @@ def main():
     
     if not final_trends:
         print("Error: No trends could be retrieved. Restructuring aborted.")
-        return
+        sys.exit(1)
         
     # 3. Double-write databases for maximum Github Action compatibility
     # Path A: Root Directory (data.json)
