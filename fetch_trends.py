@@ -51,7 +51,8 @@ def fetch_google_trends():
     google_trends = []
     
     try:
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
         root = ET.fromstring(response.text)
         
         # Iterate over trending items in the XML feed
@@ -109,7 +110,7 @@ def fetch_reddit_trends():
     reddit_trends = []
     
     try:
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=15)
         if response.status_code == 429:
             print("Warning: Reddit API rate limited (429). Skipping Reddit culture integration.")
             return []
@@ -184,8 +185,8 @@ def main():
     final_trends = combined_trends[:12]
     
     if not final_trends:
-        print("Error: No trends could be retrieved. Restructuring aborted.")
-        sys.exit(1)
+        print("Warning: No trends retrieved. Keeping existing data.")
+        sys.exit(0)
         
     # 3. Double-write databases for maximum Github Action compatibility
     # Path A: Root Directory (data.json)
