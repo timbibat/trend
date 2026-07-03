@@ -2,7 +2,7 @@ name: Auto-Update Trends Data
 
 on:
   schedule:
-    - cron: '0 */12 * * *' # Runs every 12 hours
+    - cron: '0 */1 * * *' # Runs every 1 hour
   workflow_dispatch: # Allows manual trigger click
 
 permissions:
