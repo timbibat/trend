@@ -185,8 +185,8 @@ def main():
     final_trends = combined_trends[:12]
     
     if not final_trends:
-        print("Warning: No trends retrieved. Keeping existing data.")
-        sys.exit(0)
+        print("Error: No trends retrieved. Failing so workflow can retry.")
+        sys.exit(1)
         
     # 3. Double-write databases for maximum Github Action compatibility
     # Path A: Root Directory (data.json)

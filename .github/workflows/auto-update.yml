@@ -2,7 +2,7 @@ name: Auto-Update Trends Data
 
 on:
   schedule:
-    - cron: '0 */1 * * *' # Runs every 1 hour
+    - cron: '0 * * * *' # Runs every hour
   push:
     branches:
       - main
@@ -29,6 +29,8 @@ jobs:
     steps:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
+      with:
+        ref: main
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -50,7 +52,7 @@ jobs:
         git config --global user.email 'timothybibat654@gmail.com'
         git add data.json data/data.json
         git commit -m "Auto-update trends data" || echo "No changes to commit"
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
