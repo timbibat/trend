@@ -3,13 +3,28 @@ name: Auto-Update Trends Data
 on:
   schedule:
     - cron: '0 */1 * * *' # Runs every 1 hour
+  push:
+    branches:
+      - main
   workflow_dispatch: # Allows manual trigger click
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages and pushing updates
 permissions:
-  contents: write # Crucial: Allows the bot to push data.json back to your repo
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to make sure the commits complete successfully.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository Code
@@ -36,3 +51,15 @@ jobs:
         git add data.json data/data.json
         git commit -m "Auto-update trends data" || echo "No changes to commit"
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '.'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
