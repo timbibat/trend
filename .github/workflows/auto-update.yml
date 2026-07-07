@@ -43,8 +43,14 @@ jobs:
     - name: Run Trend Fetcher Script
       run: |
         for i in 1 2 3; do
-          python fetch_trends.py && break || echo "Attempt $i failed, retrying..." && sleep 15
+          if python fetch_trends.py; then
+            exit 0
+          fi
+          echo "Attempt $i failed, retrying in 30 seconds..."
+          sleep 30
         done
+        echo "All 3 attempts failed."
+        exit 1
 
     - name: Commit and Push Updated data.json
       run: |

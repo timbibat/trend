@@ -106,7 +106,7 @@ def fetch_google_trends():
 def fetch_reddit_trends():
     """Fetches high-engagement posts from Reddit's popular feeds to capture pure web culture."""
     url = "https://www.reddit.com/r/popular/hot.json?limit=15"
-    headers = {"User-Agent": USER_AGENT}
+    headers = {"User-Agent": "python:auto-update-trends:v1.0 (by /u/timbibat)"}
     reddit_trends = []
     
     try:
