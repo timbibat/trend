@@ -5,6 +5,10 @@ let gameHighScore = parseInt(localStorage.getItem('trendpulse_game_highscore')) 
 let activeGameCardA = null;
 let activeGameCardB = null;
 
+// Advanced Arena Features
+let comboStreak = 0;
+let comboMultiplier = 1;
+
 export function initGame() {
   const gameScoreEl = document.getElementById('game-score');
   const gameHighScoreEl = document.getElementById('game-highscore');
@@ -18,7 +22,10 @@ export function initGame() {
   if (!gameScoreEl) return;
   
   gameScore = 0;
-  gameScoreEl.textContent = gameScore;
+  comboStreak = 0;
+  comboMultiplier = 1;
+  updateScoreDisplay();
+  
   gameHighScoreEl.textContent = gameHighScore;
   
   gamePlayView.classList.remove('hidden');
@@ -39,7 +46,7 @@ export function initGame() {
 }
 
 export function drawNewGameRound() {
-  if (!state.trendsData || state.trendsData.length < 2) return;
+  if (!state.baseTrendsData || state.baseTrendsData.length < 2) return;
   
   const gameCardACategory = document.getElementById('game-card-a-category');
   const gameCardATitle = document.getElementById('game-card-a-title');
@@ -51,13 +58,13 @@ export function drawNewGameRound() {
 
   // Pick Trend A
   if (!activeGameCardA) {
-    activeGameCardA = state.trendsData[Math.floor(Math.random() * state.trendsData.length)];
+    activeGameCardA = state.baseTrendsData[Math.floor(Math.random() * state.baseTrendsData.length)];
   }
   
   // Pick Trend B (Must be different from A)
   let attempts = 0;
   do {
-    activeGameCardB = state.trendsData[Math.floor(Math.random() * state.trendsData.length)];
+    activeGameCardB = state.baseTrendsData[Math.floor(Math.random() * state.baseTrendsData.length)];
     attempts++;
   } while (activeGameCardB.id === activeGameCardA.id && attempts < 50);
 
@@ -77,8 +84,6 @@ export function drawNewGameRound() {
 function handleGameGuess(guessedHigher) {
   playSound('click');
   
-  const gameScoreEl = document.getElementById('game-score');
-  const gameHighScoreEl = document.getElementById('game-highscore');
   const gamePlayView = document.getElementById('game-play-view');
   const gameGameOverView = document.getElementById('game-over-view');
   const gameCardBContainer = document.getElementById('game-card-b-container');
@@ -94,11 +99,19 @@ function handleGameGuess(guessedHigher) {
     // WIN ROUND
     playSound('correct');
     if (gameCardBContainer) gameCardBContainer.classList.add('game-correct-flash');
-    gameScore++;
-    if (gameScoreEl) gameScoreEl.textContent = gameScore;
+    
+    // Combo Logic
+    comboStreak++;
+    if (comboStreak >= 3) comboMultiplier = 2;
+    if (comboStreak >= 7) comboMultiplier = 3;
+    if (comboStreak >= 15) comboMultiplier = 5;
+    
+    gameScore += (1 * comboMultiplier);
+    updateScoreDisplay();
     
     if (gameScore > gameHighScore) {
       gameHighScore = gameScore;
+      const gameHighScoreEl = document.getElementById('game-highscore');
       if (gameHighScoreEl) gameHighScoreEl.textContent = gameHighScore;
       localStorage.setItem('trendpulse_game_highscore', gameHighScore);
     }
@@ -114,6 +127,9 @@ function handleGameGuess(guessedHigher) {
     playSound('incorrect');
     if (gameCardBContainer) gameCardBContainer.classList.add('game-incorrect-flash');
     
+    comboStreak = 0;
+    comboMultiplier = 1;
+    
     setTimeout(() => {
       // Transition to game over view
       if (gamePlayView) gamePlayView.classList.add('hidden');
@@ -123,5 +139,16 @@ function handleGameGuess(guessedHigher) {
       activeGameCardA = null;
       activeGameCardB = null;
     }, 600);
+  }
+}
+
+function updateScoreDisplay() {
+  const gameScoreEl = document.getElementById('game-score');
+  if (!gameScoreEl) return;
+  
+  if (comboMultiplier > 1) {
+    gameScoreEl.innerHTML = `${gameScore} <span class="text-[8px] px-1 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/50 inline-block ml-1 animate-pulse">x${comboMultiplier}</span>`;
+  } else {
+    gameScoreEl.textContent = gameScore;
   }
 }

@@ -15,6 +15,9 @@
   
   <!-- FontAwesome for Premium Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- html2canvas for social share export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <!-- Tailwind Theme Customizations -->
   <script>
@@ -290,6 +293,41 @@
             </div>
           </div>
           
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOBAL TREND MAP SECTION -->
+    <section id="map-section" class="mt-16 border-t border-slate-900/60 pt-16">
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <i class="fa-solid fa-earth-americas text-emerald-400"></i>
+            Global Hotspots
+          </h2>
+          <p class="text-slate-400 mt-1 text-sm sm:text-base">
+            Live geographic origins of breaking internet culture and viral phenomena.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
+          <span class="text-xs font-mono font-bold text-slate-300 uppercase tracking-widest">Live Syncing</span>
+        </div>
+      </div>
+      
+      <div class="glass-premium rounded-3xl p-6 relative overflow-hidden flex items-center justify-center border border-slate-800/80 shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] min-h-[300px]">
+        <!-- Decorative Glow -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950/80 pointer-events-none z-10 rounded-3xl"></div>
+        
+        <div id="map-container" class="relative w-full max-w-4xl mx-auto z-0">
+          <!-- SVG World Map loaded externally to avoid huge inline strings -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" class="w-full h-auto aspect-[2/1] object-contain opacity-20 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)] grayscale invert brightness-75" alt="World Map">
+          
+          <!-- Map Overlay Points will be injected here via JS -->
+          <div id="map-points-layer" class="absolute inset-0 pointer-events-none"></div>
         </div>
       </div>
     </section>
@@ -589,6 +627,9 @@
       </div>
     </div>
   </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
 </body>
 </html>

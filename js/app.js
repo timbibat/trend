@@ -4,6 +4,8 @@ import { startScanMonitor } from './monitor.js';
 import { initGame } from './game.js';
 import { setupSimulatorPreview } from './simulator.js';
 import { drawSparkline } from './chart.js';
+import { startNotificationSystem } from './notifications.js';
+import { startMapSync } from './map.js';
 
 // DOM Elements Cache
 const searchInput = document.getElementById('search-input');
@@ -24,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize Simulator with callbacks to trigger grid re-rendering and tab focusing
   setupSimulatorPreview(renderGrid, focusCategoryAndScroll);
+
+  // Initialize new features
+  startNotificationSystem();
+  startMapSync();
 });
 
 // Fetch and Load JSON Data
@@ -131,26 +137,45 @@ function setupEventListeners() {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Share confirmation toast
+  // Share confirmation toast / Image Export
   if (shareButton) {
-    shareButton.addEventListener('click', () => {
-      const shareTitle = document.getElementById('modal-title').textContent;
-      const currentUrl = window.location.href;
-      navigator.clipboard.writeText(`Trending now on TrendPulse: ${shareTitle} - Check stats at ${currentUrl}`)
-        .then(() => {
-          const origHTML = shareButton.innerHTML;
-          shareButton.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Copied!`;
-          shareButton.classList.add('border-emerald-500/50');
-          setTimeout(() => {
-            shareButton.innerHTML = origHTML;
-            shareButton.classList.remove('border-emerald-500/50');
-          }, 2000);
-        })
-        .catch(err => {
-          console.error("Unable to copy share content", err);
+    shareButton.addEventListener('click', async () => {
+      const modalContent = document.getElementById('modal-card');
+      if (!modalContent) return;
+      
+      const origHTML = shareButton.innerHTML;
+      shareButton.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-purple-400"></i> Rendering...`;
+      
+      try {
+        const canvas = await html2canvas(modalContent, {
+          backgroundColor: '#030712', // match dark theme
+          scale: 2
         });
+        
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `TrendPulse_Export_${Date.now()}.png`;
+        link.href = dataUrl;
+        link.click();
+        
+        shareButton.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Exported!`;
+        shareButton.classList.add('border-emerald-500/50');
+      } catch (err) {
+        console.error("Export failed", err);
+        shareButton.innerHTML = `<i class="fa-solid fa-xmark text-red-400"></i> Failed`;
+      }
+      
+      setTimeout(() => {
+        shareButton.innerHTML = origHTML;
+        shareButton.classList.remove('border-emerald-500/50');
+      }, 2000);
     });
   }
+
+  // Listen for Notification clicks
+  document.addEventListener('openTrendModal', (e) => {
+    openModal(e.detail);
+  });
 }
 
 // Modal Control: Open and Load Dynamic Stats
