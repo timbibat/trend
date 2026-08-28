@@ -2,29 +2,23 @@ name: Auto-Update Trends Data
 
 on:
   schedule:
-    - cron: '0 * * * *' # Runs every hour
+    - cron: '23 * * * *' # Run at off-peak minute 23 every hour to avoid global :00 congestion
   push:
     branches:
       - main
   workflow_dispatch: # Allows manual trigger click
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages and pushing updates
+# Sets permissions of the GITHUB_TOKEN to allow pushing data updates
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to make sure the commits complete successfully.
+# Prevent overlapping update runs
 concurrency:
-  group: "pages"
+  group: "auto-update"
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  update-data:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository Code
@@ -46,8 +40,8 @@ jobs:
           if python fetch_trends.py; then
             exit 0
           fi
-          echo "Attempt $i failed, retrying in 30 seconds..."
-          sleep 30
+          echo "Attempt $i failed, retrying in 15 seconds..."
+          sleep 15
         done
         echo "All 3 attempts failed."
         exit 1
@@ -59,15 +53,3 @@ jobs:
         git add data.json data/data.json
         git commit -m "Auto-update trends data" || echo "No changes to commit"
         git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: '.'
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
