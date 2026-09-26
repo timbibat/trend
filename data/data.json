@@ -1,49 +1,26 @@
 [
     {
-        "title": "Fifteen years later, the Apple Cards origin story",
-        "category": "Tech & AI",
-        "badgeColor": "purple",
-        "description": "Viral technology breakout on Hacker News with 286 points and 56 community comments.",
-        "growth": "+820 %",
-        "growthNumeric": 8207,
-        "platform": "Hacker News",
-        "volume": "286 Points",
-        "sentiment": "Tech Speculation",
-        "trendDuration": "Rising",
-        "history": [
-            738,
-            1708,
-            3004,
-            3591,
-            6011,
-            6867,
-            8207
-        ],
-        "id": "1",
-        "hero": true
-    },
-    {
         "title": "PipePipe: NewPipe hard fork implementing SponsorBlock",
         "category": "Tech & AI",
         "badgeColor": "purple",
-        "description": "Viral technology breakout on Hacker News with 196 points and 90 community comments.",
-        "growth": "+767 %",
-        "growthNumeric": 7674,
+        "description": "Viral technology breakout on Hacker News with 201 points and 90 community comments.",
+        "growth": "+746 %",
+        "growthNumeric": 7462,
         "platform": "Hacker News",
-        "volume": "196 Points",
+        "volume": "201 Points",
         "sentiment": "Tech Speculation",
         "trendDuration": "Rising",
         "history": [
-            509,
-            1567,
-            2278,
-            3833,
-            6184,
-            6585,
-            7674
+            644,
+            1259,
+            2714,
+            4318,
+            5048,
+            6652,
+            7462
         ],
-        "id": "2",
-        "hero": false
+        "id": "1",
+        "hero": true
     },
     {
         "title": "trump approval",
@@ -57,15 +34,15 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            405,
-            862,
-            1863,
-            2393,
-            3821,
-            4604,
+            321,
+            996,
+            1378,
+            2962,
+            3228,
+            4310,
             5000
         ],
-        "id": "3",
+        "id": "2",
         "hero": false
     },
     {
@@ -80,15 +57,15 @@
         "sentiment": "Massive Focus",
         "trendDuration": "Rising",
         "history": [
-            138,
-            408,
-            725,
-            875,
-            1121,
-            1734,
+            179,
+            313,
+            573,
+            833,
+            1570,
+            1726,
             2000
         ],
-        "id": "4",
+        "id": "3",
         "hero": false
     },
     {
@@ -103,13 +80,36 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            168,
-            299,
-            670,
-            1122,
-            1444,
-            1766,
+            162,
+            331,
+            761,
+            960,
+            1179,
+            1913,
             2000
+        ],
+        "id": "4",
+        "hero": false
+    },
+    {
+        "title": "The Lost Atomic Update on Loongson CPU",
+        "category": "Tech & AI",
+        "badgeColor": "purple",
+        "description": "Viral technology breakout on Hacker News with 68 points and 5 community comments.",
+        "growth": "+168 %",
+        "growthNumeric": 1684,
+        "platform": "Hacker News",
+        "volume": "68 Points",
+        "sentiment": "Tech Speculation",
+        "trendDuration": "Rising",
+        "history": [
+            135,
+            293,
+            634,
+            782,
+            956,
+            1511,
+            1684
         ],
         "id": "5",
         "hero": false
@@ -118,46 +118,23 @@
         "title": "Drawgent: Coding agent on a live Excalidraw canvas",
         "category": "Tech & AI",
         "badgeColor": "purple",
-        "description": "Viral technology breakout on Hacker News with 52 points and 17 community comments.",
-        "growth": "+150 %",
-        "growthNumeric": 1507,
+        "description": "Viral technology breakout on Hacker News with 54 points and 17 community comments.",
+        "growth": "+152 %",
+        "growthNumeric": 1521,
         "platform": "Hacker News",
-        "volume": "52 Points",
+        "volume": "54 Points",
         "sentiment": "Tech Speculation",
         "trendDuration": "Rising",
         "history": [
-            132,
-            315,
-            471,
-            669,
-            1223,
-            1359,
-            1507
+            112,
+            259,
+            441,
+            727,
+            1077,
+            1408,
+            1521
         ],
         "id": "6",
-        "hero": false
-    },
-    {
-        "title": "The Lost Atomic Update on Loongson CPU",
-        "category": "Tech & AI",
-        "badgeColor": "purple",
-        "description": "Viral technology breakout on Hacker News with 66 points and 5 community comments.",
-        "growth": "+125 %",
-        "growthNumeric": 1256,
-        "platform": "Hacker News",
-        "volume": "66 Points",
-        "sentiment": "Tech Speculation",
-        "trendDuration": "Rising",
-        "history": [
-            81,
-            217,
-            475,
-            625,
-            743,
-            1212,
-            1256
-        ],
-        "id": "7",
         "hero": false
     },
     {
@@ -172,15 +149,15 @@
         "sentiment": "Massive Focus",
         "trendDuration": "Exploding",
         "history": [
-            76,
-            171,
-            296,
-            511,
-            655,
-            892,
+            80,
+            167,
+            268,
+            510,
+            711,
+            931,
             1000
         ],
-        "id": "8",
+        "id": "7",
         "hero": false
     },
     {
@@ -195,15 +172,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Rising",
         "history": [
-            68,
-            197,
-            261,
+            65,
+            152,
+            322,
+            603,
             589,
-            642,
-            938,
+            868,
             1000
         ],
-        "id": "9",
+        "id": "8",
         "hero": false
     },
     {
@@ -218,15 +195,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Rising",
         "history": [
-            94,
-            213,
-            274,
-            460,
-            684,
-            868,
+            65,
+            159,
+            354,
+            468,
+            594,
+            803,
             1000
         ],
-        "id": "10",
+        "id": "9",
         "hero": false
     },
     {
@@ -241,15 +218,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Stable",
         "history": [
-            83,
-            203,
-            266,
-            458,
-            819,
-            841,
+            67,
+            144,
+            328,
+            614,
+            752,
+            869,
             1000
         ],
-        "id": "11",
+        "id": "10",
         "hero": false
     },
     {
@@ -264,12 +241,35 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            87,
-            200,
-            340,
-            443,
-            786,
-            799,
+            82,
+            171,
+            363,
+            569,
+            712,
+            800,
+            1000
+        ],
+        "id": "11",
+        "hero": false
+    },
+    {
+        "title": "street fighter movie",
+        "category": "Gaming",
+        "badgeColor": "cyan",
+        "description": "Spike in daily searches triggered by public curiosity. Search queries highlight interest in: .",
+        "growth": "+1000+",
+        "growthNumeric": 1000,
+        "platform": "Google Search (GB)",
+        "volume": "1000+ queries",
+        "sentiment": "Curiosity Spike",
+        "trendDuration": "Stable",
+        "history": [
+            68,
+            195,
+            317,
+            519,
+            582,
+            833,
             1000
         ],
         "id": "12",
