@@ -4,68 +4,45 @@
         "category": "Tech & AI",
         "badgeColor": "purple",
         "description": "Viral technology breakout on Hacker News with 513 points and 229 community comments.",
-        "growth": "+1,577 %",
-        "growthNumeric": 15777,
+        "growth": "+1,586 %",
+        "growthNumeric": 15866,
         "platform": "Hacker News",
         "volume": "513 Points",
         "sentiment": "Tech Speculation",
         "trendDuration": "Rising",
         "history": [
-            1302,
-            2643,
-            4786,
-            7472,
-            9094,
-            14125,
-            15777
+            1311,
+            3279,
+            5380,
+            8853,
+            12454,
+            12982,
+            15866
         ],
         "id": "1",
         "hero": true
-    },
-    {
-        "title": "Apple Pass Designer",
-        "category": "Tech & AI",
-        "badgeColor": "purple",
-        "description": "Viral technology breakout on Hacker News with 323 points and 215 community comments.",
-        "growth": "+1,303 %",
-        "growthNumeric": 13034,
-        "platform": "Hacker News",
-        "volume": "323 Points",
-        "sentiment": "Tech Speculation",
-        "trendDuration": "Rising",
-        "history": [
-            987,
-            2306,
-            4139,
-            7194,
-            8038,
-            10943,
-            13034
-        ],
-        "id": "2",
-        "hero": false
     },
     {
         "title": "The Forgetful CPU (Linux on M4)",
         "category": "Tech & AI",
         "badgeColor": "purple",
         "description": "Viral technology breakout on Hacker News with 110 points and 38 community comments.",
-        "growth": "+332 %",
-        "growthNumeric": 3329,
+        "growth": "+357 %",
+        "growthNumeric": 3571,
         "platform": "Hacker News",
         "volume": "110 Points",
         "sentiment": "Tech Speculation",
         "trendDuration": "Rising",
         "history": [
-            266,
-            530,
-            986,
-            1558,
-            2303,
-            2938,
-            3329
+            277,
+            594,
+            1247,
+            2103,
+            2353,
+            2923,
+            3571
         ],
-        "id": "3",
+        "id": "2",
         "hero": false
     },
     {
@@ -80,15 +57,15 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            164,
-            395,
-            593,
-            1197,
-            1314,
-            1763,
+            143,
+            346,
+            542,
+            1237,
+            1399,
+            1911,
             2000
         ],
-        "id": "4",
+        "id": "3",
         "hero": false
     },
     {
@@ -103,15 +80,15 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            175,
-            417,
-            619,
-            971,
-            1344,
-            1913,
+            142,
+            381,
+            692,
+            926,
+            1478,
+            1787,
             2000
         ],
-        "id": "5",
+        "id": "4",
         "hero": false
     },
     {
@@ -120,21 +97,21 @@
         "badgeColor": "purple",
         "description": "Viral technology breakout on Hacker News with 41 points and 18 community comments.",
         "growth": "+143 %",
-        "growthNumeric": 1438,
+        "growthNumeric": 1439,
         "platform": "Hacker News",
         "volume": "41 Points",
         "sentiment": "Tech Speculation",
         "trendDuration": "Rising",
         "history": [
-            129,
-            254,
-            422,
-            728,
-            1167,
-            1188,
-            1438
+            98,
+            284,
+            500,
+            828,
+            1150,
+            1232,
+            1439
         ],
-        "id": "6",
+        "id": "5",
         "hero": false
     },
     {
@@ -149,15 +126,15 @@
         "sentiment": "Massive Focus",
         "trendDuration": "Exploding",
         "history": [
-            78,
-            185,
-            356,
-            470,
-            581,
-            895,
+            90,
+            157,
+            329,
+            567,
+            704,
+            897,
             1000
         ],
-        "id": "7",
+        "id": "6",
         "hero": false
     },
     {
@@ -172,15 +149,15 @@
         "sentiment": "Massive Focus",
         "trendDuration": "Rising",
         "history": [
-            68,
-            210,
-            352,
-            601,
-            661,
-            960,
+            92,
+            167,
+            376,
+            534,
+            621,
+            902,
             1000
         ],
-        "id": "8",
+        "id": "7",
         "hero": false
     },
     {
@@ -195,15 +172,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Rising",
         "history": [
-            72,
-            147,
-            294,
-            480,
-            757,
-            948,
+            75,
+            204,
+            377,
+            607,
+            639,
+            793,
             1000
         ],
-        "id": "9",
+        "id": "8",
         "hero": false
     },
     {
@@ -218,15 +195,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Rising",
         "history": [
-            72,
-            146,
-            314,
-            474,
-            681,
-            915,
+            66,
+            145,
+            317,
+            443,
+            801,
+            865,
             1000
         ],
-        "id": "10",
+        "id": "9",
         "hero": false
     },
     {
@@ -241,15 +218,15 @@
         "sentiment": "Rising Interest",
         "trendDuration": "Stable",
         "history": [
-            82,
-            194,
-            340,
-            468,
-            615,
-            916,
+            71,
+            177,
+            278,
+            486,
+            825,
+            929,
             1000
         ],
-        "id": "11",
+        "id": "10",
         "hero": false
     },
     {
@@ -264,13 +241,36 @@
         "sentiment": "Curiosity Spike",
         "trendDuration": "Stable",
         "history": [
-            64,
-            179,
-            286,
-            471,
-            800,
-            918,
+            69,
+            208,
+            285,
+            535,
+            724,
+            923,
             1000
+        ],
+        "id": "11",
+        "hero": false
+    },
+    {
+        "title": "dateline tonight",
+        "category": "Pop Culture",
+        "badgeColor": "pink",
+        "description": "Spike in daily searches triggered by public curiosity. Search queries highlight interest in: .",
+        "growth": "+500+",
+        "growthNumeric": 500,
+        "platform": "Google Search (US)",
+        "volume": "500+ queries",
+        "sentiment": "Curiosity Spike",
+        "trendDuration": "Stable",
+        "history": [
+            41,
+            98,
+            132,
+            295,
+            352,
+            451,
+            500
         ],
         "id": "12",
         "hero": false
