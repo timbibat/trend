@@ -35,7 +35,7 @@ export function drawSparkline(history) {
   const linePointsStr = points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
   line.setAttribute('points', linePointsStr);
   
-  // Form points string for shaded area underneath (closes path at bottom)
+  // Form points string for shaded area underneath
   const areaPointsStr = `
     ${points[0].x.toFixed(1)},${height} 
     ${linePointsStr} 
@@ -48,7 +48,6 @@ export function drawSparkline(history) {
   oldCircles.forEach(c => c.remove());
   
   points.forEach((p, idx) => {
-    // Highlight only initial start, high points, and peak
     if (idx === 0 || idx === len - 1 || history[idx] === maxVal) {
       const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       circle.setAttribute('cx', p.x.toFixed(1));
@@ -102,7 +101,6 @@ export function handleChartHover(e) {
   const activePt = modalSparklinePoints[closestIdx];
   const value = modalSparklineHistory[closestIdx];
   
-  // Snap guidelines
   guideLine.setAttribute('x1', activePt.x.toFixed(1));
   guideLine.setAttribute('x2', activePt.x.toFixed(1));
   guideLine.setAttribute('opacity', '1');
@@ -134,4 +132,65 @@ export function handleChartHoverLeave() {
   if (guideLine) guideLine.setAttribute('opacity', '0');
   if (guideCircle) guideCircle.setAttribute('opacity', '0');
   if (tooltip) tooltip.style.opacity = '0';
+}
+
+// Generates lightweight SVG mini-sparkline directly embedded in each dashboard card
+export function renderMiniSparklineSVG(history = [], strokeColor = '#a855f7') {
+  if (!history || history.length < 2) return '';
+  const width = 80;
+  const height = 24;
+  const pad = 2;
+  
+  const maxVal = Math.max(...history);
+  const minVal = Math.min(...history);
+  const range = maxVal - minVal || 1;
+  
+  const pts = history.map((val, i) => {
+    const x = pad + (i / (history.length - 1)) * (width - 2 * pad);
+    const y = (height - pad) - ((val - minVal) / range) * (height - 2 * pad);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  
+  const lastPt = pts[pts.length - 1].split(',');
+
+  return `
+    <svg viewBox="0 0 ${width} ${height}" class="w-16 h-5 shrink-0 overflow-visible opacity-80 group-hover:opacity-100 transition-opacity" preserveAspectRatio="none">
+      <polyline fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${pts.join(' ')}" />
+      <circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="2.5" fill="${strokeColor}" />
+    </svg>
+  `;
+}
+
+// Dual overlay chart for Trend Comparison Mode
+export function drawComparisonChart(trendA, trendB) {
+  const svg = document.getElementById('compare-chart-svg');
+  const lineA = document.getElementById('compare-line-a');
+  const lineB = document.getElementById('compare-line-b');
+  if (!svg || !lineA || !lineB || !trendA || !trendB) return;
+
+  const histA = trendA.history || [];
+  const histB = trendB.history || [];
+  const maxVal = Math.max(...histA, ...histB, 1);
+  const minVal = Math.min(...histA, ...histB, 0);
+  const range = maxVal - minVal || 1;
+
+  const width = 500;
+  const height = 120;
+  const padX = 20;
+  const padY = 15;
+
+  const ptsA = histA.map((val, i) => {
+    const x = padX + (i / (histA.length - 1)) * (width - 2 * padX);
+    const y = (height - padY) - ((val - minVal) / range) * (height - 2 * padY);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  const ptsB = histB.map((val, i) => {
+    const x = padX + (i / (histB.length - 1)) * (width - 2 * padX);
+    const y = (height - padY) - ((val - minVal) / range) * (height - 2 * padY);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  lineA.setAttribute('points', ptsA);
+  lineB.setAttribute('points', ptsB);
 }

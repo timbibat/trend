@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TrendPulse | Real-Time Viral & Internet Culture Trends Dashboard</title>
   
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="TrendPulse | Real-Time Viral & Internet Culture Trends Dashboard">
+  <meta name="description" content="Track real-time viral internet culture, memes, gaming spikes, and tech breakthroughs with live algorithmic velocity metrics.">
+  <meta name="theme-color" content="#030712">
+
+  <!-- Open Graph / Social Previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TrendPulse | Real-Time Viral & Internet Culture Trends Dashboard">
+  <meta property="og:description" content="Track real-time viral internet culture, memes, gaming spikes, and tech breakthroughs with live algorithmic velocity metrics.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop">
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="TrendPulse | Real-Time Culture Intelligence">
+  <meta property="twitter:description" content="Track real-time viral internet culture, memes, gaming spikes, and tech breakthroughs with live algorithmic velocity metrics.">
+
+  <!-- SVG Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -93,26 +112,57 @@
             </span>
           </div>
         </a>
-        <span class="hidden lg:inline-block h-4 w-px bg-slate-800"></span>
-        <p class="text-xs sm:text-sm text-slate-400 font-medium tracking-wide">
-          Tracking the Internet's Culture in Real-Time
+        <span class="hidden xl:inline-block h-4 w-px bg-slate-800"></span>
+        <p class="hidden xl:inline-block text-xs text-slate-400 font-medium tracking-wide">
+          Tracking Internet Culture in Real-Time
         </p>
       </div>
 
-      <!-- SEARCH INPUT IN HEADER -->
-      <div class="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-md group">
-        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-          <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-purple-400 transition-colors"></i>
-        </span>
-        <input 
-          type="text" 
-          id="search-input" 
-          placeholder="Search viral trends..." 
-          class="w-full pl-10 pr-10 py-2.5 bg-slate-900/60 text-sm text-slate-100 placeholder-slate-400 border border-slate-800/80 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-950 focus:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300"
+      <!-- CENTER & RIGHT CONTROLS -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Live Sync Status Badge -->
+        <div id="last-sync-badge" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 font-mono shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span id="sync-time-text">Live Sync</span>
+        </div>
+
+        <!-- SEARCH INPUT -->
+        <div class="relative w-36 sm:w-56 md:w-64 group">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fa-solid fa-magnifying-glass text-xs text-slate-400 group-focus-within:text-purple-400 transition-colors"></i>
+          </span>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search viral trends..." 
+            class="w-full pl-8 pr-8 py-2 bg-slate-900/60 text-xs sm:text-sm text-slate-100 placeholder-slate-400 border border-slate-800/80 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-950 transition-all duration-300"
+          >
+          <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+            <kbd id="shortcut-hint" class="hidden sm:inline-block px-1.5 py-0.5 text-[9px] font-mono text-slate-500 border border-slate-800 rounded bg-slate-950">/</kbd>
+          </span>
+        </div>
+
+        <!-- VERSUS COMPARE BUTTON -->
+        <button 
+          id="btn-open-compare" 
+          class="px-3 py-2 bg-slate-900/80 hover:bg-slate-850 border border-slate-800 hover:border-purple-500/50 text-slate-300 hover:text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+          title="Compare Two Trends Side-by-Side"
         >
-        <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
-          <kbd id="shortcut-hint" class="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-500 border border-slate-800 rounded bg-slate-950">/</kbd>
-        </span>
+          <i class="fa-solid fa-code-compare text-purple-400"></i>
+          <span class="hidden sm:inline">Compare</span>
+        </button>
+
+        <!-- SOUND FX TOGGLE BUTTON -->
+        <button 
+          id="sound-toggle-btn" 
+          class="w-9 h-9 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-sm"
+          title="Toggle Sound Effects"
+        >
+          <i id="sound-icon" class="fa-solid fa-volume-high text-xs"></i>
+        </button>
       </div>
       
     </div>
@@ -143,7 +193,7 @@
             Current Cultural Hotspots
           </h2>
           <p class="text-slate-400 mt-1 text-sm sm:text-base">
-            Dynamic database representing weekly algorithmic volumes, growth factors, and cultural sentiments.
+            Multi-source algorithmic tracker analyzing search spikes, gaming releases, and viral web lore.
           </p>
         </div>
 
@@ -166,8 +216,8 @@
         </div>
       </div>
 
-      <!-- FILTER TABS (PILLS) -->
-      <div class="mt-6 flex items-center gap-2 overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0" id="filter-tabs">
+      <!-- FILTER TABS: CATEGORIES -->
+      <div class="mt-6 flex items-center gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none" id="filter-tabs">
         <button data-category="all" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-sm font-semibold tracking-wide shadow-[0_0_15px_rgba(168,85,247,0.35)] border border-purple-500/25 transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-globe"></i> All Culture
         </button>
@@ -190,6 +240,20 @@
           <i class="fa-solid fa-heart text-pink-500"></i> My Watchlist
         </button>
       </div>
+
+      <!-- FILTER TABS: PLATFORM SOURCES -->
+      <div class="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs" id="platform-filter-tabs">
+        <span class="text-slate-500 text-[10px] uppercase font-bold tracking-wider shrink-0 mr-1 flex items-center gap-1">
+          <i class="fa-solid fa-layer-group text-[9px]"></i> Platform:
+        </span>
+        <button data-platform="all" class="px-2.5 py-1 bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 rounded-lg font-medium whitespace-nowrap transition-all">All Platforms</button>
+        <button data-platform="google" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-850 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-brands fa-google text-slate-400 mr-1"></i>Google</button>
+        <button data-platform="hacker news" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-855 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-brands fa-hacker-news text-orange-400 mr-1"></i>Hacker News</button>
+        <button data-platform="steam" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-850 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-brands fa-steam text-cyan-400 mr-1"></i>Steam</button>
+        <button data-platform="meme" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-850 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-solid fa-masks-theater text-emerald-400 mr-1"></i>Know Your Meme</button>
+        <button data-platform="reddit" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-850 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-brands fa-reddit-alien text-orange-500 mr-1"></i>Reddit</button>
+        <button data-platform="custom" class="px-2.5 py-1 bg-slate-900/60 hover:bg-slate-850 text-slate-400 hover:text-white border border-slate-800 rounded-lg whitespace-nowrap transition-all"><i class="fa-solid fa-atom text-purple-400 mr-1"></i>Pulse Labs</button>
+      </div>
     </section>
 
     <!-- TREND CARDS GRID & SIDEBAR -->
@@ -197,7 +261,7 @@
       <div id="no-results" class="hidden text-center py-20 bg-slate-900/20 rounded-2xl border border-slate-800/60 max-w-lg mx-auto mb-8">
         <i class="fa-solid fa-magnifying-glass-chart text-4xl text-slate-600 mb-4"></i>
         <h4 class="text-lg font-bold text-slate-300">No Trends Detected</h4>
-        <p class="text-slate-500 text-sm mt-1">We couldn't find matches matching that query. Try scanning another cultural space!</p>
+        <p class="text-slate-500 text-sm mt-1">We couldn't find matches matching that query or platform. Try scanning another space!</p>
       </div>
 
       <!-- Dual Column Layout: Left Grid (3 cols), Right Monitor/Arena (1 col) -->
@@ -306,7 +370,7 @@
             Global Hotspots
           </h2>
           <p class="text-slate-400 mt-1 text-sm sm:text-base">
-            Live geographic origins of breaking internet culture and viral phenomena.
+            Live geographic origins of breaking search spikes, gaming clusters, and digital subcultures.
           </p>
         </div>
         <div class="flex items-center gap-2">
@@ -323,8 +387,8 @@
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950/80 pointer-events-none z-10 rounded-3xl"></div>
         
         <div id="map-container" class="relative w-full max-w-4xl mx-auto z-0">
-          <!-- SVG World Map loaded externally to avoid huge inline strings -->
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" class="w-full h-auto aspect-[2/1] object-contain opacity-20 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)] grayscale invert brightness-75" alt="World Map">
+          <!-- Local SVG World Map loaded reliably without Wikimedia hotlink dependencies -->
+          <img src="world.svg" class="w-full h-auto aspect-[950/620] object-contain opacity-25 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)] grayscale invert brightness-75" alt="World Map">
           
           <!-- Map Overlay Points will be injected here via JS -->
           <div id="map-points-layer" class="absolute inset-0 pointer-events-none"></div>
@@ -350,7 +414,7 @@
                 Trend Virality Simulator
               </h2>
               <p class="text-slate-400 text-xs sm:text-sm mt-1">
-                Engineer custom culture metrics. Dial in the parameters to generate a synthetic trend and inject it into the live ecosystem.
+                Engineer custom culture metrics. Dial in parameters to generate a synthetic trend and inject it into the live ecosystem.
               </p>
             </div>
 
@@ -378,6 +442,8 @@
                     <option value="TikTok">🎵 TikTok</option>
                     <option value="X (Twitter)">🐦 X / Twitter</option>
                     <option value="Reddit">👽 Reddit</option>
+                    <option value="Steam">🎮 Steam Store</option>
+                    <option value="Hacker News">⚡ Hacker News</option>
                     <option value="YouTube">📺 YouTube</option>
                     <option value="Instagram">📸 Instagram</option>
                   </select>
@@ -510,9 +576,12 @@
         <span class="hidden md:inline">Digital Anthropological Metrics Engine</span>
       </div>
       <div class="flex gap-6">
-        <a href="#" class="hover:text-purple-400 transition-colors">Documentation</a>
-        <a href="#" class="hover:text-purple-400 transition-colors">API Endpoint</a>
-        <a href="#" class="hover:text-purple-400 transition-colors">Privacy Policy</a>
+        <a href="https://github.com/timbibat/trend" target="_blank" rel="noopener noreferrer" class="hover:text-purple-400 transition-colors flex items-center gap-1">
+          <i class="fa-brands fa-github"></i> Repository
+        </a>
+        <a href="data/data.json" target="_blank" class="hover:text-purple-400 transition-colors flex items-center gap-1">
+          <i class="fa-solid fa-code"></i> Live JSON API
+        </a>
       </div>
     </div>
   </footer>
@@ -534,16 +603,16 @@
             Tech & AI
           </span>
           <span id="modal-platform" class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-            <i class="fa-solid fa-hashtag text-cyan-400"></i> Platform: Facebook
+            <i class="fa-solid fa-hashtag text-cyan-400"></i> Platform: Google Search
           </span>
         </div>
 
         <h3 id="modal-title" class="text-2xl md:text-3xl font-black text-white leading-tight mb-3">
-          AI Slop & Synthetic Nostalgia
+          Trend Title
         </h3>
 
         <p id="modal-description" class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
-          The emergence of bizarre AI-generated Facebook accounts and aesthetic themes...
+          Detailed breakdown of viral trajectory and contextual triggers...
         </p>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
@@ -615,13 +684,108 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-4 border-t border-slate-800/60">
-          <div class="text-xs text-slate-500">
-            Source: <span class="font-bold text-slate-400">Algorithmic Aggregations</span>
+        <!-- ACTION BUTTONS: DIRECT SOURCE & CREATOR TOOLS -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800/60">
+          <a 
+            id="modal-source-link" 
+            href="#" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="px-4 py-2 bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 hover:text-white rounded-xl text-xs font-bold border border-purple-800/60 flex items-center gap-2 transition-all shadow-sm"
+          >
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span>View Source Feed</span>
+          </a>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="modal-share-x" class="px-3 py-2 bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-800 flex items-center gap-1.5 transition-all">
+              <i class="fa-brands fa-x-twitter"></i> Copy Tweet
+            </button>
+            <button id="modal-export-json" class="px-3 py-2 bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-800 flex items-center gap-1.5 transition-all">
+              <i class="fa-solid fa-download"></i> JSON
+            </button>
+            <button id="modal-share" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-[0_4px_15px_rgba(168,85,247,0.3)]">
+              <i class="fa-regular fa-image"></i> Export Card
+            </button>
           </div>
-          <button id="modal-share" class="px-4 py-2 bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-white rounded-xl text-xs font-bold border border-slate-800 flex items-center gap-2 transition-all duration-200">
-            <i class="fa-regular fa-share-from-square"></i> Share Metrics
-          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TREND VERSUS COMPARISON MODAL -->
+  <div id="compare-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] transform scale-95 transition-all duration-300" id="compare-card">
+      <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500"></div>
+
+      <button id="compare-close" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/80 flex items-center justify-center transition-all duration-200 z-10 focus:outline-none">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="px-3 py-0.5 text-[10px] font-black uppercase tracking-widest bg-purple-950 text-purple-300 border border-purple-800/40 rounded-full">
+            ⚔️ Trend Versus
+          </span>
+          <span class="text-xs text-slate-400">Head-to-head cultural comparison</span>
+        </div>
+        <h3 class="text-2xl font-black text-white">Trend Comparison Engine</h3>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1 mb-6">Select any two trends from the live ecosystem to compare their algorithmic metrics and velocity trajectory.</p>
+
+        <!-- Dropdowns Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <!-- Select A -->
+          <div class="p-4 bg-slate-950/70 border border-purple-500/30 rounded-2xl space-y-2">
+            <label class="text-[10px] font-bold uppercase tracking-wider text-purple-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Trend A
+            </label>
+            <select id="compare-select-a" class="w-full px-3 py-2 bg-slate-900 text-xs text-slate-100 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 cursor-pointer"></select>
+            <div id="compare-stats-a" class="pt-2 text-xs text-slate-300 space-y-1"></div>
+          </div>
+
+          <!-- Select B -->
+          <div class="p-4 bg-slate-950/70 border border-cyan-500/30 rounded-2xl space-y-2">
+            <label class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Trend B
+            </label>
+            <select id="compare-select-b" class="w-full px-3 py-2 bg-slate-900 text-xs text-slate-100 border border-slate-800 rounded-xl focus:outline-none focus:border-cyan-500 cursor-pointer"></select>
+            <div id="compare-stats-b" class="pt-2 text-xs text-slate-300 space-y-1"></div>
+          </div>
+        </div>
+
+        <!-- Shared Velocity Chart -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs font-semibold">
+            <span class="text-slate-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-chart-line text-purple-400"></i> Dual 7-Day Velocity Overlay
+            </span>
+            <div class="flex items-center gap-4 text-[10px] font-mono">
+              <span class="flex items-center gap-1 text-purple-400"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Trend A</span>
+              <span class="flex items-center gap-1 text-cyan-400"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> Trend B</span>
+            </div>
+          </div>
+
+          <div class="relative w-full h-36 bg-slate-950/90 border border-slate-800/80 rounded-2xl p-4 overflow-hidden flex flex-col justify-end">
+            <svg id="compare-chart-svg" class="w-full h-28 relative z-10" viewBox="0 0 500 120" preserveAspectRatio="none">
+              <polyline id="compare-line-a" fill="none" stroke="#a855f7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points=""></polyline>
+              <polyline id="compare-line-b" fill="none" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points=""></polyline>
+            </svg>
+            <div class="flex justify-between text-[8px] font-mono text-slate-500 mt-2 z-10">
+              <span>Day 1</span>
+              <span>Day 2</span>
+              <span>Day 3</span>
+              <span>Day 4</span>
+              <span>Day 5</span>
+              <span>Day 6</span>
+              <span>Today (Peak)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Takeaway summary -->
+        <div id="compare-winner-banner" class="mt-4 p-3 bg-slate-900/60 border border-slate-800 rounded-xl text-center text-xs font-medium text-slate-300">
+          Comparing trends...
         </div>
 
       </div>

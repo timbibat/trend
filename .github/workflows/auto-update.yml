@@ -1,12 +1,7 @@
 name: Auto-Update Trends Data
 
 on:
-  schedule:
-    - cron: '23 * * * *' # Run at off-peak minute 23 every hour to avoid global :00 congestion
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Allows manual trigger click
+  workflow_dispatch: # Allows manual trigger click and external cron-job API dispatches
 
 # Sets permissions of the GITHUB_TOKEN to allow pushing data updates
 permissions:

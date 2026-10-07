@@ -1,76 +1,110 @@
-import { state } from './state.js';
+import { state, accentTheme, defaultTheme } from './state.js';
+
+// Realistic geographic pin mapping on world.svg (950 x 620 projection)
+const GEO_LOCATIONS = {
+  'US': [
+    { name: 'New York, US', x: 26, y: 38 },
+    { name: 'Silicon Valley, US', x: 16, y: 39 },
+    { name: 'Chicago, US', x: 22, y: 36 },
+    { name: 'Austin, US', x: 21, y: 44 }
+  ],
+  'GB': [
+    { name: 'London, UK', x: 49, y: 28 },
+    { name: 'Manchester, UK', x: 48, y: 26 },
+    { name: 'Edinburgh, UK', x: 48, y: 24 }
+  ],
+  'CA': [
+    { name: 'Toronto, CA', x: 25, y: 34 },
+    { name: 'Vancouver, CA', x: 16, y: 30 },
+    { name: 'Montreal, CA', x: 27, y: 32 }
+  ],
+  'AU': [
+    { name: 'Sydney, AU', x: 86, y: 76 },
+    { name: 'Melbourne, AU', x: 84, y: 80 },
+    { name: 'Brisbane, AU', x: 87, y: 72 }
+  ],
+  'GLOBAL': [
+    { name: 'Tokyo, JP', x: 84, y: 39 },
+    { name: 'Seoul, KR', x: 80, y: 38 },
+    { name: 'Berlin, DE', x: 53, y: 28 },
+    { name: 'Singapore, SG', x: 75, y: 56 },
+    { name: 'São Paulo, BR', x: 33, y: 73 },
+    { name: 'Stockholm, SE', x: 54, y: 21 },
+    { name: 'Mumbai, IN', x: 68, y: 46 },
+    { name: 'Sydney, AU', x: 86, y: 76 },
+    { name: 'Silicon Valley, US', x: 16, y: 39 },
+    { name: 'London, UK', x: 49, y: 28 }
+  ]
+};
 
 export function startMapSync() {
-  // Start pulsing random locations on the SVG map to simulate global hotspots
-  setInterval(spawnMapPing, 2000);
+  setInterval(spawnMapPing, 2200);
   
-  // Initial burst
-  for(let i=0; i<3; i++) {
-    setTimeout(spawnMapPing, i * 300);
+  // Initial burst of 3 pings
+  for (let i = 0; i < 3; i++) {
+    setTimeout(spawnMapPing, i * 400);
   }
 }
 
 function spawnMapPing() {
-  if (!state.baseTrendsData || state.baseTrendsData.length === 0) return;
+  if (!state.trendsData || state.trendsData.length === 0) return;
   const mapLayer = document.getElementById('map-points-layer');
   if (!mapLayer) return;
 
-  // The SVG is roughly 1000x500. We want pings to mostly land on landmasses,
-  // but to keep it lightweight without a complex geoJSON lookup, we can 
-  // bias points towards standard continental coordinates roughly matching the SVG projection.
-  
-  const regions = [
-    { x: 15, y: 35, w: 20, h: 30 }, // North America
-    { x: 22, y: 65, w: 10, h: 20 }, // South America
-    { x: 45, y: 30, w: 15, h: 20 }, // Europe
-    { x: 50, y: 50, w: 15, h: 25 }, // Africa
-    { x: 65, y: 30, w: 25, h: 30 }, // Asia
-    { x: 80, y: 70, w: 10, h: 10 }, // Australia
-  ];
-  
-  const region = regions[Math.floor(Math.random() * regions.length)];
-  const x = region.x + Math.random() * region.w;
-  const y = region.y + Math.random() * region.h;
+  // Pick a random trend from the current active trends
+  const trend = state.trendsData[Math.floor(Math.random() * state.trendsData.length)];
+  const geoCode = trend.geo || 'GLOBAL';
+  const locationPool = GEO_LOCATIONS[geoCode] || GEO_LOCATIONS['GLOBAL'];
+  const loc = locationPool[Math.floor(Math.random() * locationPool.length)];
+
+  // Add subtle organic jitter (+/- 1.2%)
+  const jitterX = (Math.random() - 0.5) * 2.4;
+  const jitterY = (Math.random() - 0.5) * 2.4;
+  const posX = Math.max(5, Math.min(95, loc.x + jitterX));
+  const posY = Math.max(5, Math.min(95, loc.y + jitterY));
+
+  const theme = accentTheme[trend.category] || defaultTheme;
+  const ringColor = theme.strokeColor || '#06b6d4';
 
   const ping = document.createElement('div');
-  ping.className = 'absolute flex h-5 w-5 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 hover:scale-125 transition-transform duration-200';
-  ping.style.left = `${x}%`;
-  ping.style.top = `${y}%`;
-  
-  // Choose random color theme
-  const colors = [
-    { bg: 'bg-purple-500', ring: 'bg-purple-400', shadow: 'rgba(168,85,247,0.5)' },
-    { bg: 'bg-cyan-500', ring: 'bg-cyan-400', shadow: 'rgba(6,182,212,0.5)' },
-    { bg: 'bg-emerald-500', ring: 'bg-emerald-400', shadow: 'rgba(16,185,129,0.5)' },
-    { bg: 'bg-pink-500', ring: 'bg-pink-400', shadow: 'rgba(236,72,153,0.5)' }
-  ];
-  const theme = colors[Math.floor(Math.random() * colors.length)];
-  
-  // Pick a random trend to show on hover (optional enhancement)
-  const randomTrend = state.baseTrendsData[Math.floor(Math.random() * state.baseTrendsData.length)];
+  ping.className = 'absolute flex h-6 w-6 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer z-10 group transition-all duration-300';
+  ping.style.left = `${posX}%`;
+  ping.style.top = `${posY}%`;
 
   ping.innerHTML = `
-    <span class="animate-ping absolute inline-flex h-full w-full rounded-full ${theme.ring} opacity-60"></span>
-    <span class="relative inline-flex rounded-full h-2 w-2 m-auto ${theme.bg}" style="box-shadow: 0 0 10px ${theme.shadow}"></span>
-    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-slate-900 border border-slate-700 rounded text-[9px] font-bold text-white opacity-0 pointer-events-none transition-opacity duration-200 shadow-xl group-hover:opacity-100 z-20">
-      ${randomTrend.title}
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style="background-color: ${ringColor}"></span>
+    <span class="relative inline-flex rounded-full h-2.5 w-2.5 m-auto" style="background-color: ${ringColor}; box-shadow: 0 0 12px ${ringColor}"></span>
+    
+    <!-- Rich Floating Hover Tooltip -->
+    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[220px] p-2 bg-slate-950/95 border border-slate-700/80 rounded-xl text-[10px] text-white opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-2xl backdrop-blur-md z-30">
+      <div class="flex items-center justify-between gap-2 pb-1 border-b border-slate-800 text-[9px]">
+        <span class="text-slate-400 font-mono flex items-center gap-1">
+          <i class="fa-solid fa-location-dot text-cyan-400"></i> ${loc.name}
+        </span>
+        <span class="text-emerald-400 font-bold">${trend.growth}</span>
+      </div>
+      <p class="font-bold text-slate-100 line-clamp-1 mt-1">${trend.title}</p>
+      <div class="text-[9px] text-slate-400 mt-0.5 flex items-center justify-between">
+        <span>${trend.platform}</span>
+        <span class="text-purple-400 font-medium">Click to inspect</span>
+      </div>
     </div>
   `;
-  
-  // Make the tooltip appear on hover by adding group class
-  ping.classList.add('group');
 
+  // Open detail modal when clicking on the map pin
   ping.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('openTrendModal', { detail: randomTrend.id }));
+    document.dispatchEvent(new CustomEvent('openTrendModal', { detail: trend.id }));
   });
 
   mapLayer.appendChild(ping);
 
-  // Fade out and remove
+  // Fade out after 5-7 seconds
   setTimeout(() => {
     ping.classList.add('opacity-0');
     setTimeout(() => {
-      if(mapLayer.contains(ping)) mapLayer.removeChild(ping);
+      if (mapLayer.contains(ping)) {
+        mapLayer.removeChild(ping);
+      }
     }, 500);
-  }, 4000 + Math.random() * 2000); // Live for 4-6 seconds
+  }, 4500 + Math.random() * 2000);
 }

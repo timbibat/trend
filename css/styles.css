@@ -166,3 +166,12 @@ input[type="range"]::-moz-range-thumb:hover {
   50% { box-shadow: 0 0 35px 10px rgba(239, 68, 68, 0.4); }
   100% { box-shadow: 0 0 0 0px rgba(239, 68, 68, 0); }
 }
+
+/* Hide scrollbars for horizontal filter rows */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

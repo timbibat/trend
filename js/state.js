@@ -3,14 +3,26 @@ export const state = {
   baseTrendsData: [], // Standard parsed data.json trends
   trendsData: [],     // Merged active trends (custom + standard)
   activeCategory: 'all',
+  activePlatform: 'all',
   searchQuery: '',
   sortCriteria: 'growth-desc',
   bookmarks: JSON.parse(localStorage.getItem('trendpulse_bookmarks')) || [],
-  customTrends: JSON.parse(localStorage.getItem('trendpulse_custom_trends')) || []
+  customTrends: JSON.parse(localStorage.getItem('trendpulse_custom_trends')) || [],
+  isMuted: localStorage.getItem('trendpulse_muted') === 'true',
+  lastUpdated: null
 };
 
 // Web Audio Context for synthesized retro game sound FX
 let audioCtx = null;
+
+export function toggleSoundMute() {
+  state.isMuted = !state.isMuted;
+  localStorage.setItem('trendpulse_muted', state.isMuted);
+  if (!state.isMuted) {
+    playSound('click');
+  }
+  return state.isMuted;
+}
 
 // Tailwind accent map matching categories
 export const accentTheme = {
@@ -20,6 +32,7 @@ export const accentTheme = {
     badge: 'bg-purple-950 text-purple-300 border-purple-800/40',
     glow: 'hover:shadow-[0_15px_30px_-10px_rgba(168,85,247,0.25)]',
     colorClass: 'brand-purple',
+    strokeColor: '#a855f7',
     icon: 'fa-microchip'
   },
   'Pop Culture': {
@@ -28,6 +41,7 @@ export const accentTheme = {
     badge: 'bg-pink-950 text-pink-300 border-pink-800/40',
     glow: 'hover:shadow-[0_15px_30px_-10px_rgba(236,72,153,0.25)]',
     colorClass: 'brand-pink',
+    strokeColor: '#ec4899',
     icon: 'fa-compact-disc'
   },
   'Gaming': {
@@ -36,6 +50,7 @@ export const accentTheme = {
     badge: 'bg-cyan-950 text-cyan-300 border-cyan-800/40',
     glow: 'hover:shadow-[0_15px_30px_-10px_rgba(6,182,212,0.25)]',
     colorClass: 'brand-cyan',
+    strokeColor: '#06b6d4',
     icon: 'fa-gamepad'
   },
   'Memes': {
@@ -44,6 +59,7 @@ export const accentTheme = {
     badge: 'bg-emerald-950 text-emerald-300 border-emerald-800/40',
     glow: 'hover:shadow-[0_15px_30px_-10px_rgba(16,185,129,0.25)]',
     colorClass: 'brand-emerald',
+    strokeColor: '#10b981',
     icon: 'fa-face-laugh-squint'
   },
   'Web Lore': {
@@ -52,6 +68,7 @@ export const accentTheme = {
     badge: 'bg-amber-950 text-amber-300 border-amber-800/40',
     glow: 'hover:shadow-[0_15px_30px_-10px_rgba(245,158,11,0.25)]',
     colorClass: 'brand-amber',
+    strokeColor: '#f59e0b',
     icon: 'fa-book-open'
   }
 };
@@ -63,6 +80,7 @@ export const defaultTheme = {
   badge: 'bg-slate-900 text-slate-300 border-slate-700',
   glow: 'hover:shadow-2xl',
   colorClass: 'slate-300',
+  strokeColor: '#94a3b8',
   icon: 'fa-hashtag'
 };
 
@@ -73,10 +91,15 @@ export function rebuildTrendsDataset() {
     return t;
   });
   state.trendsData = [...state.customTrends, ...parsedStandard];
+  
+  if (state.baseTrendsData.length > 0 && state.baseTrendsData[0].updatedAt) {
+    state.lastUpdated = new Date(state.baseTrendsData[0].updatedAt);
+  }
 }
 
 // Pure Web Audio Synthesizer sound waves generator
 export function playSound(type) {
+  if (state.isMuted) return;
   try {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -134,13 +157,18 @@ export function playSound(type) {
 }
 
 // Helper: Map platform names to social media icons
-export function getPlatformIcon(platform) {
+export function getPlatformIcon(platform = '') {
   const lower = platform.toLowerCase();
   if (lower.includes('tiktok')) return 'fa-brands fa-tiktok';
-  if (lower.includes('twitter') || lower.includes('x ')) return 'fa-brands fa-x-twitter';
+  if (lower.includes('twitter') || lower.includes('x ') || lower.includes('x/')) return 'fa-brands fa-x-twitter';
   if (lower.includes('reddit')) return 'fa-brands fa-reddit-alien';
   if (lower.includes('youtube')) return 'fa-brands fa-youtube';
   if (lower.includes('facebook')) return 'fa-brands fa-facebook-f';
   if (lower.includes('instagram')) return 'fa-brands fa-instagram';
-  return 'fa-solid fa-share-nodes';
+  if (lower.includes('steam')) return 'fa-brands fa-steam';
+  if (lower.includes('hacker news')) return 'fa-brands fa-hacker-news';
+  if (lower.includes('google')) return 'fa-brands fa-google';
+  if (lower.includes('meme')) return 'fa-solid fa-masks-theater';
+  if (lower.includes('pulse labs') || lower.includes('simulator')) return 'fa-solid fa-atom';
+  return 'fa-solid fa-arrow-trend-up';
 }
